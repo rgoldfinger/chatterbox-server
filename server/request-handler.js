@@ -7,7 +7,17 @@
 
 // var database = require('./database.js').database;
 var _ = require('underscore');
-var db = require("./database.js").newDB;
+var fs = require('fs');
+var db = require('./database.js').newDB;
+var url = require('url');
+var path = require('path');
+
+
+var mimeTypes = {
+  'html': 'text/html',
+  'js': 'text/javascript',
+  'css': 'text/css'
+};
 
 // var newDB = require('./database.js').newDB;
 
@@ -61,25 +71,33 @@ exports.handler = function(req, response) {
         });
     });
 
-
-
   } else if(req.url === '/1/classes/messages'){
     statusCode = 405;
     response.writeHead(statusCode, headers);
     response.end();
   } else {
-    statusCode = 404;
-    response.writeHead(statusCode, headers);
-    response.end();
+    var uri = url.parse(req.url).pathname;
+    if (uri === '/') {
+      uri = '/index.html';
+    }
+
+    var fileName = path.join(process.cwd(), 'client', uri);
+    console.log(fileName);
+
+    fs.exists(fileName, function(exists) {
+      if (exists) {
+        var mimeType = mimeTypes[path.extname(fileName)];
+        console.log('mimetype: ', mimeType);
+        res.writeHead(200, {});
+
+      } else {
+        statusCode = 404;
+        response.writeHead(statusCode, headers);
+        response.end();
+
+      }
+    });
   }
-
-// response.writeHead(statusCode, headers);
-//   response.end(JSON.stringify(data));
-
-
-
-
-  /* .writeHead() tells our server what HTTP status code to send back */
 
 
 };
