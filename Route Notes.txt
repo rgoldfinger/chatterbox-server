@@ -2,3 +2,16 @@ route                       HTTP method     Request                           Re
 /1/classes/chatterbox        GET            Nothing                            An JSON object that has an array of message objects
 /1/classes/chatterbox        PUT            JSON Object of a single message    Sucess confirmation with a JOON with an object ID and createdAt
 /1/classes/chatterbox/:options GET          Retrieval with specific options    A JSON object with specific options
+
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/1/classes/chatterbox',
+      type: 'OPTIONS',
+      success: function(data){
+        console.log(data);
+
+      },
+      error: function(data){
+        console.log("Error!!")
+      }
+      });
