@@ -4,6 +4,7 @@ var rh = require("./request-handler.js");
 
 
 
+
 /* Every server needs to listen on a port with a unique number. The
  * standard port for HTTP servers is port 80, but that port is
  * normally already claimed by another server and/or not accessible
@@ -38,30 +39,16 @@ server.listen(port, ip);
  * Ctrl-C on the command line. */
 
 //testing
-//
-//
-//
-// var fs = require('fs');
-// //
-// var testData = {
-//   username: "Jack",
-//   text: "Helloooooo",
-//   roomname: "PiratesOnly"
-// };
+// var str = {"username":"Roger","text":"I love map","roomname":"PiratesOnly"};
+// db.writeOne(str);
 
-// fs.appendFile('test1.txt', ','+JSON.stringify(testData), function(error) {
-//   if (error) {
-//     throw error;
-//   } else {
-//     console.log("SAVED!!");
-//   }
+// var arr = db.readAll(function(arg){
+//   console.log(arg);
 // });
 
-// fs.readFile('test1.txt', function(error, data) {
-//   if (error) {
-//     throw error;
-//   } else {
-//     console.log(data);
-//     console.log(JSON.parse(data));
-//   }
-// })
+
+
+
+
+
+

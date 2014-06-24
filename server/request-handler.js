@@ -5,8 +5,9 @@
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
 
-var database = require('./database.js').database;
+// var database = require('./database.js').database;
 var _ = require('underscore');
+var db = require("./database.js").newDB;
 
 // var newDB = require('./database.js').newDB;
 
@@ -41,31 +42,42 @@ exports.handler = function(req, response) {
   if (req.url === '/1/classes/messages' && req.method === 'GET') {
 
     statusCode = 200;
-    for(var i=0; i<database.length;i++){
-      data.results.push(database[i]);
-    }
-
+    db.readAll(function(datab){
+      for(var i = 0; i < datab.length; i++){
+        data.results.push(datab[i]);
+      }
+      response.writeHead(statusCode, headers);
+      response.end(JSON.stringify(data));
+    });
   } else if (req.url === '/1/classes/messages' && req.method === 'POST') {
     statusCode = 201;
     req.on('data',function(chunk){
       var message = JSON.parse(chunk.toString());
-      database.unshift(message);
+      db.writeOne(message,function(){
+          response.writeHead(statusCode, headers);
+          response.end(JSON.stringify(data));
+        });
     });
+
+
 
   } else if(req.url === '/1/classes/messages'){
     statusCode = 405;
+    response.writeHead(statusCode, headers);
+    response.end();
   } else {
     statusCode = 404;
+    response.writeHead(statusCode, headers);
+    response.end();
   }
 
+// response.writeHead(statusCode, headers);
+//   response.end(JSON.stringify(data));
 
 
 
 
   /* .writeHead() tells our server what HTTP status code to send back */
-  response.writeHead(statusCode, headers);
-
-  response.end(JSON.stringify(data));
 
 
 };
