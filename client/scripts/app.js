@@ -2,7 +2,7 @@ var app = {
 
   init: function(){
     // use setInterval to start repeating functionality
-    // app.displayUserInput();
+    app.displayUserInput();
     app.fetch();
     app.render();
 
@@ -10,7 +10,7 @@ var app = {
     setInterval(function() {
       app.fetch();
       app.render();
-    }, 1000);
+    }, 15000);
 
   },
 
@@ -22,7 +22,7 @@ var app = {
   currentRoom: null,
   userName: null,
 
-  server: 'http://127.0.0.1:3000/1/classes/chatterbox',
+  server: 'http://127.0.0.1:3000/1/classes/messages',
 
   displayUserInput: function() {
     var $textbox = $('<input type="text" placeholder="Enter your username to chat..." id="username-input"></input>');

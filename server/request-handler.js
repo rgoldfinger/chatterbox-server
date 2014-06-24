@@ -8,7 +8,21 @@
 var database = require('./database.js').database;
 var _ = require('underscore');
 
-exports.handleRequest = function(req, response) {
+exports.handler = function(req, response) {
+
+  var statusCode;
+  var headers = defaultCorsHeaders;
+  headers['Content-Type'] = 'application/json';
+
+  if (req.method === 'OPTIONS') {
+    console.log("options");
+    headers['Allow'] = 'HEAD,GET,PUT,DELETE,OPTIONS';
+    response.writeHead(statusCode, headers);
+    response.end();
+    return;
+
+  }
+  console.log("Request type is ",req.method);
   /* the 'request' argument comes from nodes http module. It includes info about the
   request - such as what URL the browser is requesting. */
 
@@ -18,32 +32,43 @@ exports.handleRequest = function(req, response) {
   //Parse the request and figure out what the client is asking for
   //Parse which HTTP method - GET/POST/PUT? (request.method)
   //Parse the URL it is requesting (request.url)
-  //
-  var data=''; //Just so the server does not crash on a different URL
-  if (req.url === '/1/classes/chatterbox' && req.method === 'GET') {
-    data = {};
-    //Retrieve the array of messages
-    data.results = [];
 
+
+  var data={}; //Just so the server does not crash on a different URL
+  data.results = [];
+  if (req.url === '/1/classes/messages' && req.method === 'GET') {
+    // data = {};
+    //Retrieve the array of messages
+    statusCode = 200;
     for(var i=0; i<database.length;i++){
       data.results.push(database[i]);
     }
     //Build the JSON object that contains the array of message objects
-    data = JSON.stringify(data);
-  }
 
+  } else if (req.url === '/1/classes/messages' && req.method === 'POST') {
+    statusCode = 201;
+    req.on('data',function(chunk){
+      var message = JSON.parse(chunk.toString());
+      database.unshift(message);
+      console.log(database[database.length-1]);
+    });
+
+  } else if(req.url === '/1/classes/messages'){
+    statusCode = 405;
+  } else {
+    statusCode = 404;
+  }
 
 
 //-------Build Response -----
 //Building a response header
-  var statusCode = 200;
-  var headers = defaultCorsHeaders;
-  headers['Content-Type'] = 'application/json';
+
 
   /* .writeHead() tells our server what HTTP status code to send back */
   response.writeHead(statusCode, headers);
+  console.log(JSON.stringify(data));
 
-  response.end(data);
+  response.end(JSON.stringify(data));
 
   /* Make sure to always call response.end() - Node will not send
    * anything back to the client until you do. The string you pass to
