@@ -5,31 +5,51 @@
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
 
-exports.handleRequest = function(request, response) {
+var database = require('./database.js').database;
+var _ = require('underscore');
+
+exports.handleRequest = function(req, response) {
   /* the 'request' argument comes from nodes http module. It includes info about the
   request - such as what URL the browser is requesting. */
 
   /* Documentation for both request and response can be found at
    * http://nodemanual.org/0.8.14/nodejs_ref_guide/http.html */
 
-  console.log("Serving request type " + request.method + " for url " + request.url);
+  //Parse the request and figure out what the client is asking for
+  //Parse which HTTP method - GET/POST/PUT? (request.method)
+  //Parse the URL it is requesting (request.url)
+  //
+  var data=''; //Just so the server does not crash on a different URL
+  if (req.url === '/1/classes/chatterbox' && req.method === 'GET') {
+    data = {};
+    //Retrieve the array of messages
+    data.results = [];
 
+    for(var i=0; i<database.length;i++){
+      data.results.push(database[i]);
+    }
+    //Build the JSON object that contains the array of message objects
+    data = JSON.stringify(data);
+  }
+
+
+
+//-------Build Response -----
+//Building a response header
   var statusCode = 200;
-
-  /* Without this line, this server wouldn't work. See the note
-   * below about CORS. */
   var headers = defaultCorsHeaders;
-
-  headers['Content-Type'] = "text/plain";
+  headers['Content-Type'] = 'application/json';
 
   /* .writeHead() tells our server what HTTP status code to send back */
   response.writeHead(statusCode, headers);
+
+  response.end(data);
 
   /* Make sure to always call response.end() - Node will not send
    * anything back to the client until you do. The string you pass to
    * response.end() will be the body of the response - i.e. what shows
    * up in the browser.*/
-  response.end("Hello, World!");
+  // response.end("The request type was " + req.method + " and the URL was "  + req.url);
 };
 
 /* These headers will allow Cross-Origin Resource Sharing (CORS).

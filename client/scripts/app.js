@@ -2,7 +2,7 @@ var app = {
 
   init: function(){
     // use setInterval to start repeating functionality
-    app.displayUserInput();
+    // app.displayUserInput();
     app.fetch();
     app.render();
 
@@ -22,7 +22,7 @@ var app = {
   currentRoom: null,
   userName: null,
 
-  server: 'https://api.parse.com/1/classes/chatterbox',
+  server: 'http://127.0.0.1:3000/1/classes/chatterbox',
 
   displayUserInput: function() {
     var $textbox = $('<input type="text" placeholder="Enter your username to chat..." id="username-input"></input>');
@@ -84,7 +84,8 @@ var app = {
   },
 
   fetch: function(){
-    var urlOptions = '?order=-createdAt';
+    var urlOptions = '';
+    //= '?order=-createdAt';
     if(app.currentRoom !== null){
       urlOptions += '&where={"roomname":"' + app.currentRoom + '"}';
     }
@@ -96,7 +97,7 @@ var app = {
 
       },
       error: function(data){
-        console.error("looks like we're all alone in the universe...");
+        console.log("Error!!")
       }
     });
   },
