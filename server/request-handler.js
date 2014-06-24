@@ -50,12 +50,14 @@ exports.handler = function(req, response) {
       response.end(JSON.stringify(data));
     });
   } else if (req.url === '/1/classes/messages' && req.method === 'POST') {
+    console.log("In Post");
     statusCode = 201;
     req.on('data',function(chunk){
       var message = JSON.parse(chunk.toString());
       db.writeOne(message,function(){
           response.writeHead(statusCode, headers);
           response.end(JSON.stringify(data));
+          console.log("Just finished handling with callback");
         });
     });
 

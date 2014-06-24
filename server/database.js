@@ -33,12 +33,12 @@ exports.newDB = {
     });
   },
 
-  writeOne : function(msg){
+  writeOne : function(msg,callback){
     fs.appendFile('db.txt', '#$'+JSON.stringify(msg), function(error) {
       if (error) {
         throw error;
       } else {
-        console.log('SAVED!!');
+        callback(msg);
       }
     });
   }

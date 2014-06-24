@@ -10,7 +10,7 @@ var app = {
     setInterval(function() {
       app.fetch();
       app.render();
-    }, 15000);
+    }, 1000);
 
   },
 
