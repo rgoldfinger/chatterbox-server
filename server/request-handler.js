@@ -8,6 +8,10 @@
 var database = require('./database.js').database;
 var _ = require('underscore');
 
+// var newDB = require('./database.js').newDB;
+
+// var data = newDB.readAll();
+
 exports.handler = function(req, response) {
 
 
@@ -18,14 +22,12 @@ exports.handler = function(req, response) {
   headers['Content-Type'] = 'application/json';
 
   if (req.method === 'OPTIONS') {
-    console.log("options");
     headers['Allow'] = 'HEAD,GET,PUT,DELETE,OPTIONS';
     response.writeHead(statusCode, headers);
     response.end();
     return;
 
   }
-  console.log("Request type is ",req.method);
 
   //Parse the request and figure out what the client is asking for
   //Parse which HTTP method - GET/POST/PUT? (request.method)
@@ -61,7 +63,6 @@ exports.handler = function(req, response) {
 
   /* .writeHead() tells our server what HTTP status code to send back */
   response.writeHead(statusCode, headers);
-  console.log(JSON.stringify(data));
 
   response.end(JSON.stringify(data));
 

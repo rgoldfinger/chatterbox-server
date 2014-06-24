@@ -36,3 +36,32 @@ server.listen(port, ip);
  * server.listen() will continue running as long as there is the
  * possibility of serving more requests. To stop your server, hit
  * Ctrl-C on the command line. */
+
+//testing
+//
+//
+//
+var fs = require('fs');
+//
+var testData = {
+  username: "Jack",
+  text: "Helloooooo",
+  roomname: "PiratesOnly"
+};
+
+fs.appendFile('test1.txt', ','+JSON.stringify(testData), function(error) {
+  if (error) {
+    throw error;
+  } else {
+    console.log("SAVED!!");
+  }
+});
+
+fs.readFile('test1.txt', function(error, data) {
+  if (error) {
+    throw error;
+  } else {
+    console.log(data);
+    console.log(JSON.parse(data));
+  }
+})
