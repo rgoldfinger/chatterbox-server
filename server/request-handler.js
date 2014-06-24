@@ -23,6 +23,7 @@ exports.handler = function(req, response) {
 
   if (req.method === 'OPTIONS') {
     headers['Allow'] = 'HEAD,GET,PUT,DELETE,OPTIONS';
+    statusCode = 200;
     response.writeHead(statusCode, headers);
     response.end();
     return;

@@ -41,27 +41,27 @@ server.listen(port, ip);
 //
 //
 //
-var fs = require('fs');
-//
-var testData = {
-  username: "Jack",
-  text: "Helloooooo",
-  roomname: "PiratesOnly"
-};
+// var fs = require('fs');
+// //
+// var testData = {
+//   username: "Jack",
+//   text: "Helloooooo",
+//   roomname: "PiratesOnly"
+// };
 
-fs.appendFile('test1.txt', ','+JSON.stringify(testData), function(error) {
-  if (error) {
-    throw error;
-  } else {
-    console.log("SAVED!!");
-  }
-});
+// fs.appendFile('test1.txt', ','+JSON.stringify(testData), function(error) {
+//   if (error) {
+//     throw error;
+//   } else {
+//     console.log("SAVED!!");
+//   }
+// });
 
-fs.readFile('test1.txt', function(error, data) {
-  if (error) {
-    throw error;
-  } else {
-    console.log(data);
-    console.log(JSON.parse(data));
-  }
-})
+// fs.readFile('test1.txt', function(error, data) {
+//   if (error) {
+//     throw error;
+//   } else {
+//     console.log(data);
+//     console.log(JSON.parse(data));
+//   }
+// })
