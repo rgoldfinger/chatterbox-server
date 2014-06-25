@@ -14,9 +14,9 @@ var path = require('path');
 
 
 var mimeTypes = {
-  'html': 'text/html',
-  'js': 'text/javascript',
-  'css': 'text/css'
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.css': 'text/css'
 };
 
 // var newDB = require('./database.js').newDB;
@@ -24,7 +24,6 @@ var mimeTypes = {
 // var data = newDB.readAll();
 
 exports.handler = function(req, response) {
-
 
   //-------Build Response -----
   //Building a response header
@@ -82,13 +81,17 @@ exports.handler = function(req, response) {
     }
 
     var fileName = path.join(process.cwd(), 'client', uri);
-    console.log(fileName);
+    console.log("Filename is ",fileName);
 
     fs.exists(fileName, function(exists) {
       if (exists) {
+
         var mimeType = mimeTypes[path.extname(fileName)];
-        console.log('mimetype: ', mimeType);
-        res.writeHead(200, {});
+        headers['Content-Type'] = mimeType;
+        response.writeHead(200, headers);
+        var fileStream = fs.createReadStream(fileName);
+        fileStream.pipe(response);
+        // response.end();
 
       } else {
         statusCode = 404;

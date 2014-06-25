@@ -19,7 +19,7 @@ var _ = require('underscore');
 
 exports.newDB = {
   readAll: function (callback) {
-    fs.readFile('db.txt',function(err,data){
+    fs.readFile('./server/db.txt',function(err,data){
       if (err) {
         throw err;
       } else {
@@ -34,7 +34,7 @@ exports.newDB = {
   },
 
   writeOne : function(msg,callback){
-    fs.appendFile('db.txt', '#$'+JSON.stringify(msg), function(error) {
+    fs.appendFile('./server/db.txt', '#$'+JSON.stringify(msg), function(error) {
       if (error) {
         throw error;
       } else {
