@@ -22,7 +22,7 @@ var app = {
   currentRoom: null,
   userName: null,
 
-  server: 'http://127.0.0.1:3000/1/classes/messages',
+  server: 'http://badass1234.azurewebsites.net/1/classes/messages',
 
   displayUserInput: function() {
     var $textbox = $('<input type="text" placeholder="Enter your username to chat..." id="username-input"></input>');
